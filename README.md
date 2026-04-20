@@ -30,7 +30,7 @@ Hand-written SystemVerilog port of the SWIFT (Sliding Window Infinite Fourier Tr
 | `decay_rom.sv` | Synchronous BRAM ROM loaded via $readmemh | ✅ Done |
 | `decay_rom_tb.sv` | Testbench — addr 0, 1, 2 verified against hex file | ✅ Done |
 | `bin_ram.sv` | Synchronous read/write BRAM storing 64 complex bin states | ✅ Done |
-| `bin_ram_tb.sv` | Testbench — write/read verification | 🔄 In Progress |
+| `bin_ram_tb.sv` | Testbench — write/read verification | ✅ Done |
 | `swift_core.sv` | Main state machine — recurrence loop across all 64 bins | ⬜ Next |
 | `magnitude_approx.sv` | Alpha-max beta-min sqrt approximation | ⬜ Post-break |
 | `swift_top.sv` | Top-level ZedBoard pin mapping, clock, reset | ⬜ Post-break |
@@ -77,7 +77,8 @@ swift_core.sv  (state machine, loops over 64 bins)
 | Decay coefficients | Q1.15 | 16 bits |
 | Bin state | Q9.14 | 23 bits |
 | Multiply intermediate | Q10.29 | 39 bits |
-| After right-shift 15 | Q10.14 | 24 bits |
+| After right-shift 15 (intermediate inside complex_mult) | Q10.14 | 24 bits |
+| complex_mult final output (ac−bd / ad+bc) | Q11.14 | 25 bits |
 | After add (sample + product) | Q11.14 | 25 bits |
 | Saturate and store | Q9.14 | 23 bits |
 
